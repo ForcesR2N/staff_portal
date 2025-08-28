@@ -1,16 +1,43 @@
-# staff_portal
+# Staff Portal
 
-A new Flutter project.
+  ## Authentication Flow
 
-## Getting Started
+  The app uses a dual-model approach for clean data handling:
 
-This project is a starting point for a Flutter application.
+  **Login Response → User Model Conversion**
+  User Login → DummyJSON API → LoginResponseModel → UserModel → UI Display
 
-A few resources to get you started if this is your first Flutter project:
+  **Why Two Models?**
+  - `LoginResponseModel`: Complete API response with tokens and metadata
+  - `UserModel`: Clean cuz without sensitive information like tokens etc
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  **Implementation:**
+  ```dart
+  // API returns complete data
+  LoginResponseModel loginResponse = await ApiService.login(email, password);
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  // Automatically converted to clean model
+  UserModel user = UserModel.fromLoginResponse(loginResponse);
+
+  // Easy access throughout app
+  Text('Welcome ${authController.userName}!');
+
+  Benefits:
+  - Clean separation between API data and app data
+  - Secure token handling (stored separately)
+  - Simple UI data access with reactive updates
+
+  Custom Snackbar System
+
+  Consistent Notifications
+  - Standardized colors and styling across the app
+  - Full-width display for modern UI
+  - Multiple types: success (green), error (red), warning (orange), info (blue)
+
+  Anti-Spam Protection
+  - Used debouncer prevents notification spam
+  - 500ms delay between similar messages
+
+  Usage:
+  CustomSnackbar.showSuccess(message: 'Login successful!');
+  CustomSnackbar.showError(message: 'Login failed!');
