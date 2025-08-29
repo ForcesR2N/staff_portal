@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../../core/models/user_model.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/custom_snackbar.dart';
-import '../../../core/utils/validators.dart';
 import '../../dashboard/controllers/dashboard_controller.dart';
 
 class EditEmployeeController extends GetxController {
@@ -69,6 +68,9 @@ class EditEmployeeController extends GetxController {
     if (value.trim().length < 2) {
       return 'First name must be at least 2 characters';
     }
+    if (value.trim().length > 30) {
+      return 'First name cannot exceed 30 characters';
+    }
     return null;
   }
 
@@ -79,29 +81,56 @@ class EditEmployeeController extends GetxController {
     if (value.trim().length < 2) {
       return 'Last name must be at least 2 characters';
     }
+    if (value.trim().length > 30) {
+      return 'Last name cannot exceed 30 characters';
+    }
     return null;
   }
 
   String? validateEmail(String? value) {
-    return Validators.email(value);
+    if (value == null || value.trim().isEmpty) {
+      return 'Email address is required';
+    }
+    if (!GetUtils.isEmail(value.trim())) {
+      return 'Please enter a valid email format';
+    }
+    return null;
   }
 
   String? validatePhone(String? value) {
     if (value != null && value.trim().isNotEmpty) {
-      if (value.trim().length < 10) {
+      final cleanedValue = value.replaceAll(RegExp(r'[^0-9+]'), '');
+      if (cleanedValue.length < 10) {
         return 'Phone number must be at least 10 digits';
       }
+      if (cleanedValue.length > 15) {
+        return 'Phone number cannot exceed 15 digits';
+      }
     }
-    return null; // Phone is optional
+    return null;
   }
 
   String? validateTitle(String? value) {
-    // Title is optional
+    if (value != null && value.trim().isNotEmpty) {
+      if (value.trim().length < 2) {
+        return 'Job title must be at least 2 characters';
+      }
+      if (value.trim().length > 100) {
+        return 'Job title cannot exceed 100 characters';
+      }
+    }
     return null;
   }
 
   String? validateDepartment(String? value) {
-    // Department is optional  
+    if (value != null && value.trim().isNotEmpty) {
+      if (value.trim().length < 2) {
+        return 'Department must be at least 2 characters';
+      }
+      if (value.trim().length > 100) {
+        return 'Department cannot exceed 100 characters';
+      }
+    }
     return null;
   }
 

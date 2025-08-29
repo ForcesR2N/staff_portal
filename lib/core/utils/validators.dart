@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 class Validators {
   static String? email(String? value) {
     if (value?.isEmpty ?? true) return 'Email is required';
-    if (!GetUtils.isEmail(value!)) return 'Please enter a valid email';
+    if (!GetUtils.isEmail(value!)) return 'Please enter a valid email address';
     return null;
   }
   

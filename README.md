@@ -1,30 +1,30 @@
-# 🏢 Staff Portal - Flutter Employee Management System
+# Staff Portal - Flutter Employee Management System
 
-## 📋 Project Overview
+## Project Overview
 
 Staff Portal adalah aplikasi Flutter untuk employee management system dengan complete CRUD functionality. Project ini menggunakan **DummyJSON API** sebagai backend service dan menggunakan **GetX** untuk state management.
 
-## ✅ Features Completed
+## Features Completed
 
-### 🔐 Authentication Module
+### Authentication Module
 - **Login/Register** dengan JWT token management
 - **Secure storage** dengan GetStorage
 - **Form validation** dengan error handling
 
-### 📊 Dashboard Module  
+### Dashboard Module  
 - **Employee ListView** Dengan Modern UI
 - **Pagination** dengan infinite scroll (10 data untuk sekali scroll)
 - **Search functionality** (nama & email)
 - **Pull-to-refresh** untuk data update
 - **Loading states** dan empty states
 
-### 👤 Employee Management (CRUD)
+### Employee Management (CRUD)
 - **CREATE**: Add employee (Only confirmation doesnt changed the actual data from server api)
 - **READ**: Dashboard list + detailed view
 - **UPDATE**: Edit employee (Only confirmation doesnt changed the actual data from server api)
 - **DELETE**: Deleted employee (Only confirmation doesnt changed the actual data from server api)
 
-## 🚀 Technical Stack
+## Technical Stack
 
 ### Frontend
 - **Flutter** - Cross-platform mobile framework
@@ -37,9 +37,7 @@ Staff Portal adalah aplikasi Flutter untuk employee management system dengan com
 - **JWT Authentication** - Token-based security
 - **CRUD Operations** - Complete data management
 
-## 📱 App Structure
-
-## 🔧 Key Features Detail
+## Key Features Detail
 
 ### Employee Dashboard
 - **ListView dengan pagination** (10 items per page)
@@ -75,7 +73,7 @@ Staff Portal adalah aplikasi Flutter untuk employee management system dengan com
 - **Form pre-population** dari existing data
 - **Comprehensive validation**
 
-## 🛡️ Security Features
+## Security Features
 
 - **JWT Token** management dengan auto-refresh
 - **Secure storage** dengan encryption
@@ -84,7 +82,7 @@ Staff Portal adalah aplikasi Flutter untuk employee management system dengan com
 - **API error handling** dengan user feedback
 - **Navigation guards** untuk protected routes
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Flutter SDK (>=3.0.0)
@@ -103,7 +101,7 @@ Staff Portal adalah aplikasi Flutter untuk employee management system dengan com
 - Password: `emilyspass`
 - (Any valid DummyJSON user credentials)
 
-## 🔄 API Endpoints Used
+## API Endpoints Used
 
 ```
 Authentication:
@@ -118,7 +116,7 @@ DELETE /users/{id}
 GET  /users/search?q={query}
 ```
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 **Login Response → User Model Conversion**
 User Login → DummyJSON API → LoginResponseModel → UserModel → UI Display
@@ -144,7 +142,7 @@ Text('Welcome ${authController.userName}!');
 - Secure token handling (stored separately)
 - Simple UI data access with reactive updates
 
-## 📢 Custom Snackbar System
+## Custom Snackbar
 
 **Consistent Notifications**
 - Standardized colors and styling across the app

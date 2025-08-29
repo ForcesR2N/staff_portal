@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:staff_portal/modules/dashboard/controllers/dashboard_controller.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/custom_snackbar.dart';
-import '../../../core/utils/validators.dart';
 
 class AddEmployeeController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -35,7 +34,13 @@ class AddEmployeeController extends GetxController {
   }
 
   String? validateEmail(String? value) {
-    return Validators.email(value);
+    if (value == null || value.trim().isEmpty) {
+      return 'Email address is required';
+    }
+    if (!GetUtils.isEmail(value.trim())) {
+      return 'Please enter a valid email format';
+    }
+    return null;
   }
 
   String? validatePosition(String? value) {
@@ -44,6 +49,9 @@ class AddEmployeeController extends GetxController {
     }
     if (value.trim().length < 2) {
       return 'Position must be at least 2 characters';
+    }
+    if (value.trim().length > 100) {
+      return 'Position cannot exceed 100 characters';
     }
     return null;
   }
@@ -60,11 +68,15 @@ class AddEmployeeController extends GetxController {
     
     final salary = int.tryParse(numericValue);
     if (salary == null) {
-      return 'Salary must be a valid number';
+      return 'Invalid salary format';
     }
     
     if (salary < 1000000) {
       return 'Minimum salary is Rp 1,000,000';
+    }
+    
+    if (salary > 1000000000) {
+      return 'Maximum salary is Rp 1,000,000,000';
     }
     
     return null;

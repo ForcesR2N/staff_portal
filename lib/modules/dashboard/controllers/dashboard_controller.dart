@@ -24,9 +24,9 @@ class DashboardController extends GetxController {
   void onInit() {
     super.onInit();
     loadEmployees();
-
-    // Listen to search query changes
-    debounce(searchQuery, (_) => _filterEmployees(),
+    
+    // Use GetX debounce for search
+    debounce(searchQuery, (_) => refreshEmployees(),
         time: const Duration(milliseconds: 500));
   }
 
@@ -45,9 +45,12 @@ class DashboardController extends GetxController {
 
     try {
       final skip = (currentPage.value - 1) * employeesPerPage;
+      final searchTerm = searchQuery.value.isEmpty ? null : searchQuery.value;
+      
       final response = await ApiService.getUsers(
         limit: employeesPerPage,
         skip: skip,
+        search: searchTerm,
       );
 
       if (response != null) {
@@ -57,15 +60,15 @@ class DashboardController extends GetxController {
 
         if (isRefresh) {
           employees.assignAll(newEmployees);
+          filteredEmployees.assignAll(newEmployees);
         } else {
           employees.addAll(newEmployees);
+          filteredEmployees.addAll(newEmployees);
         }
 
         totalEmployees.value = response['total'] ?? 0;
         hasMoreData.value = newEmployees.length >= employeesPerPage;
         currentPage.value++;
-
-        _filterEmployees();
       }
     } catch (e) {
       CustomSnackbar.showError(
@@ -89,27 +92,18 @@ class DashboardController extends GetxController {
 
   void updateSearchQuery(String query) {
     searchQuery.value = query;
+    // GetX debounce will handle the API call delay automatically
   }
-
-  void _filterEmployees() {
-    if (searchQuery.value.isEmpty) {
-      filteredEmployees.assignAll(employees);
-    } else {
-      final query = searchQuery.value.toLowerCase();
-      filteredEmployees.assignAll(
-        employees.where((employee) =>
-            employee.firstName.toLowerCase().contains(query) ||
-            employee.lastName.toLowerCase().contains(query) ||
-            employee.fullName.toLowerCase().contains(query) ||
-            employee.email.toLowerCase().contains(query)),
-      );
-    }
+  
+  void performSearch() {
+    refreshEmployees();
   }
 
   void clearSearch() {
     searchController.clear(); // Clear UI field
     searchQuery.value = ''; // Clear reactive variable
     searchFocusNode.unfocus(); // Remove focus from search field
+    refreshEmployees(); // Refresh to show all data
   }
 
   void unfocusSearch() {
