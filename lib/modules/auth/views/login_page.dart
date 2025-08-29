@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
+import '../../../routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 
 class LoginPage extends GetView<AuthController> {
@@ -12,26 +13,35 @@ class LoginPage extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: controller.loginFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Spacer(),
-                _buildHeader(),
-                const SizedBox(height: 48.0),
-                _buildEmailField(),
-                const SizedBox(height: 16.0),
-                _buildPasswordField(),
-                const SizedBox(height: 8.0),
-                _buildLoginButton(),
-                const SizedBox(height: 16.0),
-                _buildRegisterLink(),
-                const Spacer(),
-              ],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height - 
+                MediaQuery.of(context).padding.top - 
+                MediaQuery.of(context).padding.bottom - 24 * 2,
+            ),
+            child: IntrinsicHeight(
+              child: Form(
+                key: controller.loginFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Spacer(),
+                    _buildHeader(),
+                    const SizedBox(height: 48.0),
+                    _buildEmailField(),
+                    const SizedBox(height: 16.0),
+                    _buildPasswordField(),
+                    const SizedBox(height: 24.0),
+                    _buildLoginButton(),
+                    const SizedBox(height: 16.0),
+                    _buildRegisterLink(),
+                    const Spacer(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -117,7 +127,7 @@ class LoginPage extends GetView<AuthController> {
           style: Get.textTheme.bodyMedium,
         ),
         GestureDetector(
-          onTap: () => Get.toNamed('/register'),
+          onTap: () => Get.toNamed(AppRoutes.register),
           child: Text(
             'Sign Up',
             style: Get.textTheme.bodyMedium?.copyWith(

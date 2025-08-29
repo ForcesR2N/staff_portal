@@ -5,6 +5,7 @@ import '../models/login_response_model.dart';
 import '../models/user_model.dart';
 import '../storage/storage_service.dart';
 import '../utils/custom_snackbar.dart';
+import '../../routes/app_routes.dart';
 
 class ApiService {
   static final Dio _dio = Dio(
@@ -57,7 +58,7 @@ class ApiService {
 
   static void _handleTokenExpired() {
     StorageService.clearAll();
-    Get.offAllNamed('/login');
+    Get.offAllNamed(AppRoutes.login);
     CustomSnackbar.showWarning(
       message: 'Session expired. Please login again.',
     );
@@ -67,7 +68,8 @@ class ApiService {
     _initDio();
     
     try {
-      // Convert email to username for DummyJSON
+      // Convert email to username for DummyJSON cuz DummyJSON 
+      // doesnt accept login uses email only username and password
       String username = email;
       if (email.contains('@')) {
         username = email.split('@')[0];
@@ -123,6 +125,118 @@ class ApiService {
         return response.data;
       }
       return null;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred: ${e.toString()}';
+    }
+  }
+
+  // called 10 users only each called
+  static Future<Map<String, dynamic>?> getUsers({
+    int limit = 10,
+    int skip = 0,
+    String? search,
+  }) async {
+    _initDio();
+    
+    try {
+      final Map<String, dynamic> queryParams = {
+        'limit': limit,
+        'skip': skip,
+      };
+      
+      String endpoint = '/users';
+      if (search != null && search.isNotEmpty) {
+        endpoint = '/users/search';
+        queryParams['q'] = search;
+      }
+
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: queryParams,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      return null;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred: ${e.toString()}';
+    }
+  }
+
+  static Future<UserModel?> getUserById(int id) async {
+    _initDio();
+    
+    try {
+      final response = await _dio.get('/users/$id');
+
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.data);
+      }
+      return null;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred: ${e.toString()}';
+    }
+  }
+
+  static Future<bool> addEmployee(Map<String, dynamic> employeeData) async {
+    _initDio();
+    
+    try {
+      final response = await _dio.post(
+        '/users/add',
+        data: employeeData,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred: ${e.toString()}';
+    }
+  }
+
+  // Update user - PUT /users/{id}
+  static Future<bool> updateUser(int id, Map<String, dynamic> userData) async {
+    _initDio();
+    
+    try {
+      final response = await _dio.put(
+        '/users/$id',
+        data: userData,
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred: ${e.toString()}';
+    }
+  }
+
+  // Delete user - DELETE /users/{id}  
+  static Future<bool> deleteUser(int id) async {
+    _initDio();
+    
+    try {
+      final response = await _dio.delete('/users/$id');
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
     } on DioException catch (e) {
       throw _handleError(e);
     } catch (e) {

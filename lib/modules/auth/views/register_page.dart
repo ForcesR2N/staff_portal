@@ -19,28 +19,38 @@ class RegisterPage extends GetView<AuthController> {
         iconTheme: IconThemeData(color: Get.theme.primaryColor),
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: controller.registerFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Spacer(),
-                _buildHeader(),
-                const SizedBox(height: 48.0),
-                _buildEmailField(),
-                const SizedBox(height: 16.0),
-                _buildPasswordField(),
-                const SizedBox(height: 16.0),
-                _buildConfirmPasswordField(),
-                const SizedBox(height: 8.0),
-                _buildRegisterButton(),
-                const SizedBox(height: 16.0),
-                _buildLoginLink(),
-                const Spacer(),
-              ],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height - 
+                MediaQuery.of(context).padding.top - 
+                MediaQuery.of(context).padding.bottom - 
+                kToolbarHeight - 24 * 2,
+            ),
+            child: IntrinsicHeight(
+              child: Form(
+                key: controller.registerFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Spacer(),
+                    _buildHeader(),
+                    const SizedBox(height: 32.0),
+                    _buildEmailField(),
+                    const SizedBox(height: 16.0),
+                    _buildPasswordField(),
+                    const SizedBox(height: 16.0),
+                    _buildConfirmPasswordField(),
+                    const SizedBox(height: 24.0),
+                    _buildRegisterButton(),
+                    const SizedBox(height: 16.0),
+                    _buildLoginLink(),
+                    const Spacer(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

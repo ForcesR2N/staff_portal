@@ -29,6 +29,6 @@ class MyApp extends StatelessWidget {
   }
 
   String _getInitialRoute() {
-    return StorageService.hasToken ? AppRoutes.home : AppRoutes.login;
+    return StorageService.hasToken ? AppRoutes.dashboard : AppRoutes.login;
   }
 }

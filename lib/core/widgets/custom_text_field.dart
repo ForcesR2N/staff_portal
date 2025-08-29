@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -11,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final bool enabled;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
     super.key,
@@ -24,6 +26,7 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.enabled = true,
     this.maxLines = 1,
+    this.inputFormatters,
   });
 
   @override
@@ -35,6 +38,7 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       enabled: enabled,
       maxLines: maxLines,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

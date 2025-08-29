@@ -4,6 +4,7 @@ import '../../../core/models/user_model.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/storage/storage_service.dart';
 import '../../../core/utils/custom_snackbar.dart';
+import '../../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
   
@@ -75,7 +76,7 @@ class AuthController extends GetxController {
           message: 'Welcome ${user.fullName}!',
         );
         
-        Get.offAllNamed('/home');
+        Get.offAllNamed(AppRoutes.dashboard);
       } else {
         CustomSnackbar.showError(
           message: 'Login failed',
@@ -89,7 +90,9 @@ class AuthController extends GetxController {
     
     isLoading.value = false;
   }
-
+  
+  // DummyJSON doesnt have endpoint for real register so i just give 
+  // success snackbar then have to login use Credentials from DummyJSON
   Future<void> register() async {
     if (!registerFormKey.currentState!.validate()) return;
 
@@ -106,7 +109,6 @@ class AuthController extends GetxController {
           message: 'Registration successful! Please login.',
         );
         
-        // Clear form and don't auto-login for register
         clearControllers();
       } else {
         CustomSnackbar.showError(
@@ -127,7 +129,7 @@ class AuthController extends GetxController {
     isLoggedIn.value = false;
     currentUser.value = null;
     clearControllers();
-    Get.offAllNamed('/login');
+    Get.offAllNamed(AppRoutes.login);
     
     CustomSnackbar.showInfo(
       message: 'Logged out successfully',
