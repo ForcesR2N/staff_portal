@@ -96,8 +96,7 @@ Staff Portal adalah aplikasi Flutter untuk employee management system dengan com
 3. Run `flutter run`
 
 ### Test Credentials
-- Username: `emilys` (di case ini saya pake dummy json yang tidak menyediakan login menggunakan email hanya
-  melalui username, jadi saya menggunakan username di inputan email)
+- Username: `emilys` (dummyJSON not use email for login instead they uses username so i decide to convert email input to username when request to dummyJSON)
 - Password: `emilyspass`
 - (Any valid DummyJSON user credentials)
 
@@ -158,5 +157,6 @@ Text('Welcome ${authController.userName}!');
 CustomSnackbar.showSuccess(message: 'Login successful!');
 CustomSnackbar.showError(message: 'Login failed!');
 ```
+
 
 ---
